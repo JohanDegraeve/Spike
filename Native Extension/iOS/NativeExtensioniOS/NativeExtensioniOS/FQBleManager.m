@@ -42,7 +42,7 @@
 - (void)startScanning{
     if (self.manager) {
         FPANE_Log(@"spiketrace ANE FQBLEManager.m in startScanning, start scanning");
-        [self.manager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@YES}];
+        [self.manager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@YES, CBCentralManagerOptionRestoreIdentifierKey:@"spike-app.com"}];
     } else {
         FPANE_Log(@"spiketrace ANE FQBLEManager.m in startScanning, but manager does not exist");
     }
@@ -350,6 +350,11 @@
     _startDate = [NSDate date];
     [self.bufStr setString:@""];
     _receivedEnoughPackets = false;
+}
+
+- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *,id> *)dict
+ {
+     FPANE_Log([NSString stringWithFormat:@"spiketrace ANE FQBLEManager.m in willRestoreState"]);
 }
 
 @end
